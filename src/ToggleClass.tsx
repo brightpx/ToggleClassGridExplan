@@ -53,9 +53,6 @@ const pendingTimers = new WeakMap<HTMLElement, number>();
 
 type AnimationKind = ToggleClassContainerProps["animation"];
 
-/** Which element is toggled: the whole cell after the button, or only the nearest element. */
-type TargetMode = ToggleClassContainerProps["targetMode"];
-
 interface ToggleOptions {
     animation: AnimationKind;
     duration: number;
@@ -180,16 +177,10 @@ function promoteToCell(element: HTMLElement): HTMLElement {
  * finds the content of the column next to the button - typical for the `td` after a button in a
  * (Mendix) grid row.
  *
- * `targetMode` decides how much is hidden:
- * - `nextCell`: the whole cell (`td`) the target lives in is hidden, so no cell padding or borders
- *   are left behind as an empty gap.
- * - `nearest`: only the target itself is hidden, the surrounding cell stays visible.
+ * The whole cell (`td`) the target lives in is hidden when the matched element is the only content
+ * of that cell, so no cell padding or borders are left behind as an empty gap.
  */
-function findTargetBySelector(
-    button: HTMLButtonElement,
-    selector: string,
-    targetMode: TargetMode
-): ResolvedTarget | null {
+function findTargetBySelector(button: HTMLButtonElement, selector: string): ResolvedTarget | null {
     const elementBelow = findElementBelow(button);
 
     const roots: ParentNode[] = [];
@@ -217,9 +208,6 @@ function findTargetBySelector(
     for (const root of roots) {
         const element = queryElement(root, selector);
         if (element) {
-            if (targetMode === "nearest") {
-                return plainTarget(element);
-            }
             return plainTarget(row && row.contains(element) ? promoteToCell(element) : element);
         }
     }
@@ -276,14 +264,9 @@ function findGridRow(button: HTMLButtonElement): HTMLElement | null {
  *   used instead (the `nextCellFallback` option) and gets the full row class, so it drops below the
  *   row at full width while the button stays in its own column.
  */
-function resolveTarget(
-    button: HTMLButtonElement,
-    selector: string,
-    targetMode: TargetMode,
-    nextCellFallback: boolean
-): ResolvedTarget | null {
+function resolveTarget(button: HTMLButtonElement, selector: string, nextCellFallback: boolean): ResolvedTarget | null {
     if (selector.trim()) {
-        return findTargetBySelector(button, selector, targetMode);
+        return findTargetBySelector(button, selector);
     }
 
     const cell = button.closest<HTMLElement>(CELL_SELECTOR);
@@ -292,7 +275,7 @@ function resolveTarget(
 
     // Content below the button inside the widget's own cell.
     if (elementBelow && (!cell || cell.contains(elementBelow))) {
-        let element = targetMode === "nearest" ? elementBelow : promoteToCell(elementBelow);
+        let element = promoteToCell(elementBelow);
         if (element.contains(button)) {
             // The whole cell was picked, but that cell holds the button itself: keep the content.
             element = elementBelow;
@@ -301,8 +284,7 @@ function resolveTarget(
         return { element, layout: row ? "breakout" : "none", row };
     }
 
-    const wrapUp = (): ResolvedTarget | null =>
-        elementBelow ? plainTarget(targetMode === "nearest" ? elementBelow : promoteToCell(elementBelow)) : null;
+    const wrapUp = (): ResolvedTarget | null => (elementBelow ? plainTarget(promoteToCell(elementBelow)) : null);
 
     if (!nextCellFallback) {
         return wrapUp();
@@ -492,13 +474,8 @@ function endBreakoutAfterAnimation(element: HTMLElement, duration: number): void
  * Resolves the target and prepares the layout of the row it lives in: the cell next to the widget is
  * made full width, and content that sits in the widget's own cell breaks out below the row.
  */
-function prepareTarget(
-    button: HTMLButtonElement,
-    selector: string,
-    targetMode: TargetMode,
-    nextCellFallback: boolean
-): ResolvedTarget | null {
-    const resolved = resolveTarget(button, selector, targetMode, nextCellFallback);
+function prepareTarget(button: HTMLButtonElement, selector: string, nextCellFallback: boolean): ResolvedTarget | null {
+    const resolved = resolveTarget(button, selector, nextCellFallback);
     if (!resolved) {
         return null;
     }
@@ -716,7 +693,6 @@ export function ToggleClass(props: ToggleClassContainerProps): ReactElement {
         targetSelector,
         // The defaults are repeated here so the widget also works on pages that were configured
         // before these properties existed.
-        targetMode = "nextCell",
         nextCellFallback = true,
         initiallyHidden = true,
         animation = "slide",
@@ -755,7 +731,7 @@ export function ToggleClass(props: ToggleClassContainerProps): ReactElement {
 
         const attempt = (): void => {
             const button = buttonRef.current;
-            const target = button ? prepareTarget(button, targetSelector, targetMode, nextCellFallback) : null;
+            const target = button ? prepareTarget(button, targetSelector, nextCellFallback) : null;
 
             if (!target) {
                 frame += 1;
@@ -781,11 +757,11 @@ export function ToggleClass(props: ToggleClassContainerProps): ReactElement {
                 window.cancelAnimationFrame(handle);
             }
         };
-    }, [initiallyHidden, targetSelector, targetMode, nextCellFallback]);
+    }, [initiallyHidden, targetSelector, nextCellFallback]);
 
     const onClickHandler = useCallback(
         (button: HTMLButtonElement) => {
-            const target = prepareTarget(button, targetSelector, targetMode, nextCellFallback);
+            const target = prepareTarget(button, targetSelector, nextCellFallback);
             if (target) {
                 activeTarget.current = target.element;
                 const options = { animation, duration: animationDuration > 0 ? animationDuration : 0 };
@@ -800,7 +776,7 @@ export function ToggleClass(props: ToggleClassContainerProps): ReactElement {
                 onClickAction.execute();
             }
         },
-        [animation, animationDuration, onClickAction, targetSelector, targetMode, nextCellFallback]
+        [animation, animationDuration, onClickAction, targetSelector, nextCellFallback]
     );
 
     // The caption describes what the button does: "show" while the content is hidden and "hide"

@@ -32,19 +32,6 @@
                 </property>
             </propertyGroup>
             <propertyGroup caption="Content">
-                <property key="targetMode" type="enumeration" defaultValue="nextCell">
-                    <caption>What to hide</caption>
-                    <description>
-                        Next cell (td): hide the whole cell (or column) next to the button, so no empty padding and
-                        borders are left behind — use this for a grid row. Nearest element: hide only the element
-                        that is closest to the button (or exactly the element the target selector points at), so the
-                        cell around it stays visible.
-                    </description>
-                    <enumerationValues>
-                        <enumerationValue key="nextCell">Next cell (td)</enumerationValue>
-                        <enumerationValue key="nearest">Nearest element</enumerationValue>
-                    </enumerationValues>
-                </property>
                 <property key="targetSelector" type="string" required="false">
                     <caption>Target selector</caption>
                     <description>

@@ -16,11 +16,9 @@ A button (`mx-button btn btn-*`) that shows / hides the element below it by togg
   first element below the widget, wherever it is dropped.
 - Optionally point the widget to a specific element with a CSS selector. The cell the widget lives in
   and the cell next to it are searched first, so a `td` right after the button is found in any grid.
-- **What to hide** decides how much disappears:
-  - **Next cell (td)** (default) hides the whole cell / column, so no empty padding or borders are left
-    behind. When the matched element is the only content of its cell, the cell itself is toggled.
-  - **Nearest element** hides only the element closest to the button (or exactly the element the target
-    selector points at), leaving the surrounding cell in place.
+- The hide always removes the whole cell (`td`) the matched element lives in when that element is the
+  only content of its cell, so no empty padding or borders are left behind. When the matched element
+  shares its cell with other content, only the element itself is hidden and the cell stays visible.
 - A class list without dots is accepted as well: `mx-name-container30 lv2-content` is tried as
   `.mx-name-container30.lv2-content`. Note that Mendix adds a `widget` suffix to custom classes in the
   DOM (`lv2-content` becomes `lv2-contentwidget`), so a single class such as `mx-name-container30`
@@ -39,6 +37,14 @@ A button (`mx-button btn btn-*`) that shows / hides the element below it by togg
 
   Both classes are plain CSS, so a page or a theme can restyle or disable them. Turn the option off to
   keep the layout exactly as the theme laid it out.
+- **Brings its own CSS**: the datagrid layout the widget needs (an equal-width `flex` row instead of
+  the fixed CSS grid of the datagrid, the hidden Level 2 header, the `table-bordered-*` borders, the
+  button cell width, the `.lv2-contentwidget` panel with its open animation, …) ships inside the
+  widget in `src/ui/ToggleClass.css` and is served from `dist/widgets.css`. It is scoped to the
+  datagrid classes the widget can live in (`.last-column-new-row`, `.mx-custom-datagrid2-new`, and its
+  own `.widget-toggleclass-row-content`), so no theme module has to be edited. Because the file is
+  bundled into `dist/widgets.css`, a change to it needs the widget to be rebuilt **and the Mendix app
+  to be restarted** (the CSS file name carries a build stamp that is written when the app starts).
 - **Conditional visibility**: the widget declares the standard Mendix **Visibility** system property in
   its own **Conditional Visibility** group (General tab, like the core widgets), so the button itself can
   be shown or hidden with an expression - independent of the content it toggles.
@@ -55,11 +61,9 @@ A button (`mx-button btn btn-*`) that shows / hides the element below it by togg
    Place it as a sibling of that content (or in the column before it).
 1. Set **Caption when hidden** (for example `แสดงรายละเอียด`) and **Caption when shown**
    (for example `ซ่อนรายละเอียด`).
-1. Pick **What to hide**: **Next cell (td)** to collapse the whole column after the button, or
-   **Nearest element** to collapse only the element itself.
 1. Optionally set **Target selector** (for example `#details-panel`, `.collapsible-row` or
    `mx-name-container30`) when the element to toggle is not directly below the widget.
-   Leave it empty to toggle the nearest element below.
+   Leave it empty to toggle the element below the widget.
 1. Leave **Start hidden** on to show the page collapsed, or turn it off to start expanded.
 1. Leave **Full row fallback** on for content that is wider than the column of the button: it then spans
    the whole row under the button (whether the content sits in the same cell as the button or in the

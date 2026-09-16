@@ -6,8 +6,6 @@
 import { ActionValue, DynamicValue, WebIcon } from "mendix";
 import { CSSProperties } from "react";
 
-export type TargetModeEnum = "nextCell" | "nearest";
-
 export type BootstrapStyleEnum = "default" | "primary" | "success" | "info" | "inverse" | "warning" | "danger";
 
 export type IconPositionEnum = "left" | "right";
@@ -21,7 +19,6 @@ export interface ToggleClassContainerProps {
     tabIndex?: number;
     buttonCaption: string;
     captionWhenVisible: string;
-    targetMode: TargetModeEnum;
     targetSelector: string;
     nextCellFallback: boolean;
     initiallyHidden: boolean;
@@ -47,7 +44,6 @@ export interface ToggleClassPreviewProps {
     translate: (text: string) => string;
     buttonCaption: string;
     captionWhenVisible: string;
-    targetMode: TargetModeEnum;
     targetSelector: string;
     nextCellFallback: boolean;
     initiallyHidden: boolean;

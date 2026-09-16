@@ -57,9 +57,7 @@ function previewTarget(props: ToggleClassPreviewProps): string {
         return selector;
     }
 
-    return props.targetMode === "nearest"
-        ? translate(props, "Hides the nearest element")
-        : translate(props, "Hides the next cell (td)");
+    return translate(props, "Hides the next cell (td)");
 }
 
 function transformProps(props: ToggleClassPreviewProps): ToggleButtonProps {

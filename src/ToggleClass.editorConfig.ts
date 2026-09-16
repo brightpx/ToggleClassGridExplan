@@ -139,7 +139,7 @@ export function getPreview(
             {
                 type: "RowLayout",
                 columnSize: "grow",
-                children: [{ type: "Text", content: captionSummary(values), bold: true, fontSize: 14 }]
+                children: [{ type: "Text", content: captionSummary(values), bold: true, fontSize: 11 }]
             }
         ]
     };

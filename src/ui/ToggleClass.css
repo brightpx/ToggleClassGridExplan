@@ -75,3 +75,570 @@
     margin: 0 !important;
     box-sizing: border-box;
 }
+
+/* =====================================================================
+ * Datagrid layout that belongs to this widget
+ *
+ * Moved here from the app theme (`themesource/.../custom-styles.scss`), so the
+ * widget carries its own layout and no theme file has to be edited. It ships in
+ * `dist/widgets.css`, which the client loads for every page.
+ *
+ * The three root classes are
+ * - `.last-column-new-row`           the datagrid of a page that uses that class
+ * - `.mx-custom-datagrid2-new`       the class the datagrid of the current page carries
+ * - `.widget-toggleclass-row-content` the container the widget moves below the button,
+ *                                    which inherits the variables below so the moved
+ *                                    content is styled exactly like the row above it
+ * ===================================================================== */
+
+.last-column-new-row,
+.mx-custom-datagrid2-new,
+.widget-toggleclass-row-content {
+    --tdr-navy: #0b2a4a;
+    --tdr-blue: #1976d2;
+    --tdr-border: #d9e2ec;
+    --tdr-muted: #667085;
+    --tdr-panel: #f8fafc;
+    /* ความกว้างคอลัมน์ปุ่ม */
+    --level1-action-width: 180px;
+}
+
+/* ---------------------------------------------------------------------
+ * Top bar
+ * --------------------------------------------------------------------- */
+
+.last-column-new-row .widget-datagrid-top-bar,
+.mx-custom-datagrid2-new .widget-datagrid-top-bar,
+.widget-toggleclass-row-content .widget-datagrid-top-bar {
+    padding: 0;
+    border-bottom: 0;
+}
+
+/* ---------------------------------------------------------------------
+ * Dynamic layout
+ *
+ * Flex instead of a CSS grid, so the number of Level 1 columns never has to
+ * be declared anywhere.
+ * --------------------------------------------------------------------- */
+
+.last-column-new-row .widget-datagrid-grid,
+.mx-custom-datagrid2-new .widget-datagrid-grid,
+.widget-toggleclass-row-content .widget-datagrid-grid {
+    display: block !important;
+    width: 100%;
+    min-width: 0;
+    grid-template-columns: none !important;
+}
+
+.last-column-new-row .widget-datagrid-grid-head,
+.last-column-new-row .widget-datagrid-grid-body,
+.mx-custom-datagrid2-new .widget-datagrid-grid-head,
+.mx-custom-datagrid2-new .widget-datagrid-grid-body,
+.widget-toggleclass-row-content .widget-datagrid-grid-head,
+.widget-toggleclass-row-content .widget-datagrid-grid-body {
+    display: block !important;
+    width: 100%;
+    min-width: 0;
+}
+
+.last-column-new-row .widget-datagrid-grid-head > .tr,
+.last-column-new-row .widget-datagrid-grid-body > .tr,
+.mx-custom-datagrid2-new .widget-datagrid-grid-head > .tr,
+.mx-custom-datagrid2-new .widget-datagrid-grid-body > .tr,
+.widget-toggleclass-row-content .widget-datagrid-grid-head > .tr,
+.widget-toggleclass-row-content .widget-datagrid-grid-body > .tr {
+    display: flex !important;
+    flex-wrap: wrap;
+    width: 100%;
+    min-width: 0;
+}
+
+/* The mock header is only needed to measure a CSS grid, the flex layout does not use it. */
+.last-column-new-row .grid-mock-header,
+.mx-custom-datagrid2-new .grid-mock-header,
+.widget-toggleclass-row-content .grid-mock-header {
+    display: none !important;
+}
+
+/* ---------------------------------------------------------------------
+ * Header
+ * --------------------------------------------------------------------- */
+
+.last-column-new-row .widget-datagrid-grid-head,
+.mx-custom-datagrid2-new .widget-datagrid-grid-head,
+.widget-toggleclass-row-content .widget-datagrid-grid-head {
+    background: #f5f5f5;
+}
+
+/* Header ของ Level 1 */
+.last-column-new-row .widget-datagrid-grid-head .tr > .th:not(:last-child),
+.mx-custom-datagrid2-new .widget-datagrid-grid-head .tr > .th:not(:last-child),
+.widget-toggleclass-row-content .widget-datagrid-grid-head .tr > .th:not(:last-child) {
+    display: flex;
+    flex: 1 1 0;
+    align-items: center;
+    width: auto !important;
+    min-width: 0;
+    box-sizing: border-box;
+}
+
+/* Header รองสุดท้ายคือคอลัมน์ปุ่ม */
+.last-column-new-row .widget-datagrid-grid-head .tr > .th:nth-last-child(2),
+.mx-custom-datagrid2-new .widget-datagrid-grid-head .tr > .th:nth-last-child(2),
+.widget-toggleclass-row-content .widget-datagrid-grid-head .tr > .th:nth-last-child(2) {
+    flex: 0 0 var(--level1-action-width);
+}
+
+/* Header สุดท้ายคือ Level 2 */
+.last-column-new-row .widget-datagrid-grid-head .tr > .th:last-child,
+.mx-custom-datagrid2-new .widget-datagrid-grid-head .tr > .th:last-child,
+.widget-toggleclass-row-content .widget-datagrid-grid-head .tr > .th:last-child {
+    display: none !important;
+}
+
+.last-column-new-row .widget-datagrid-grid-head .column-container,
+.mx-custom-datagrid2-new .widget-datagrid-grid-head .column-container,
+.widget-toggleclass-row-content .widget-datagrid-grid-head .column-container {
+    width: 100%;
+    min-width: 0;
+}
+
+.last-column-new-row .widget-datagrid-grid-head .column-header,
+.mx-custom-datagrid2-new .widget-datagrid-grid-head .column-header,
+.widget-toggleclass-row-content .widget-datagrid-grid-head .column-header {
+    width: 100%;
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* ---------------------------------------------------------------------
+ * Static field
+ * --------------------------------------------------------------------- */
+
+.last-column-new-row .form-control-static,
+.mx-custom-datagrid2-new .form-control-static,
+.widget-toggleclass-row-content .form-control-static {
+    overflow: hidden;
+    padding: 6px 0;
+    color: #0a1325;
+    font-size: 14px;
+}
+
+/* ---------------------------------------------------------------------
+ * Grid data
+ *
+ * Level 1 = every td except the last one
+ * button   = td:nth-last-child(2)
+ * Level 2  = td:last-child
+ * --------------------------------------------------------------------- */
+
+/* Default: no border unless a border class is set on the datagrid. */
+.last-column-new-row .widget-datagrid-grid-body .tr > .td,
+.mx-custom-datagrid2-new .widget-datagrid-grid-body .tr > .td,
+.widget-toggleclass-row-content .widget-datagrid-grid-body .tr > .td {
+    border: none !important;
+}
+
+/* Level 1 แบ่งพื้นที่ที่เหลือเท่า ๆ กัน */
+.last-column-new-row .widget-datagrid-grid-body .tr > .td:not(:last-child),
+.mx-custom-datagrid2-new .widget-datagrid-grid-body .tr > .td:not(:last-child),
+.widget-toggleclass-row-content .widget-datagrid-grid-body .tr > .td:not(:last-child) {
+    display: flex;
+    flex: 1 1 0;
+    align-items: center;
+    width: auto !important;
+    min-width: 0;
+    box-sizing: border-box;
+}
+
+/* Level 1 ตัวสุดท้ายคือคอลัมน์ปุ่ม */
+.last-column-new-row .widget-datagrid-grid-body .tr > .td:nth-last-child(2),
+.mx-custom-datagrid2-new .widget-datagrid-grid-body .tr > .td:nth-last-child(2),
+.widget-toggleclass-row-content .widget-datagrid-grid-body .tr > .td:nth-last-child(2) {
+    flex: 0 0 var(--level1-action-width);
+}
+
+.last-column-new-row .widget-datagrid-grid-body .tr > .td:nth-last-child(2) > .td-custom-content,
+.mx-custom-datagrid2-new .widget-datagrid-grid-body .tr > .td:nth-last-child(2) > .td-custom-content,
+.widget-toggleclass-row-content .widget-datagrid-grid-body .tr > .td:nth-last-child(2) > .td-custom-content {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    min-width: 0;
+}
+
+/* Level 2 อยู่บรรทัดใหม่และกว้างเต็มแถว */
+.last-column-new-row .widget-datagrid-grid-body .tr > .td:last-child,
+.mx-custom-datagrid2-new .widget-datagrid-grid-body .tr > .td:last-child,
+.widget-toggleclass-row-content .widget-datagrid-grid-body .tr > .td:last-child {
+    display: block !important;
+    flex: 0 0 100%;
+    grid-column: auto !important;
+    width: 100% !important;
+    min-width: 0;
+    min-height: 0;
+    padding: 0 !important;
+    border: none !important;
+    overflow: hidden;
+    box-sizing: border-box;
+}
+
+.last-column-new-row .widget-datagrid-grid-body .tr > .td:last-child > .td-custom-content,
+.mx-custom-datagrid2-new .widget-datagrid-grid-body .tr > .td:last-child > .td-custom-content,
+.widget-toggleclass-row-content .widget-datagrid-grid-body .tr > .td:last-child > .td-custom-content {
+    width: 100%;
+    min-width: 0;
+    min-height: 0;
+    overflow: hidden;
+}
+
+/* ---------------------------------------------------------------------
+ * กรณี widget "Toggle Class" ถูกย้ายไปอยู่ใน col สุดท้าย
+ *
+ * ปุ่มกับเนื้อหา Level 2 จะอยู่ใน td เดียวกัน จึงต้องให้ td นั้นทำตัวเป็น
+ * คอลัมน์ปุ่ม (--level1-action-width) อยู่บรรทัดเดียวกับ Level 1 ไม่ให้ปุ่ม
+ * ตกไปบรรทัดใหม่ ส่วนเนื้อหา Level 2 นั้น widget ย้ายไปเป็น
+ * position: absolute อ้างอิงกับ .widget-toggleclass-row จึงยังกว้างเต็มแถว
+ * และปัดลงมาบรรทัดล่างได้ตามเดิม
+ * --------------------------------------------------------------------- */
+
+.last-column-new-row .widget-datagrid-grid-body .tr > .td:last-child:has(.widget-toggleclass),
+.mx-custom-datagrid2-new .widget-datagrid-grid-body .tr > .td:last-child:has(.widget-toggleclass),
+.widget-toggleclass-row-content .widget-datagrid-grid-body .tr > .td:last-child:has(.widget-toggleclass) {
+    display: flex !important;
+    flex: 0 0 var(--level1-action-width);
+    align-items: center;
+    width: auto !important;
+    min-width: 0;
+    min-height: 0;
+    overflow: visible;
+    box-sizing: border-box;
+}
+
+.last-column-new-row .widget-datagrid-grid-body .tr > .td:last-child:has(.widget-toggleclass) > .td-custom-content,
+.mx-custom-datagrid2-new .widget-datagrid-grid-body .tr > .td:last-child:has(.widget-toggleclass) > .td-custom-content,
+.widget-toggleclass-row-content
+    .widget-datagrid-grid-body
+    .tr
+    > .td:last-child:has(.widget-toggleclass)
+    > .td-custom-content {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    min-width: 0;
+    overflow: visible;
+}
+
+/* ถ้ายังเหลือคอลัมน์ปุ่มเดิม (ว่าง) อยู่ก่อน col สุดท้าย ให้ซ่อนเฉพาะแถวที่ col
+   สุดท้ายมี widget อยู่จริง เพื่อให้ปุ่มไม่ตกไปบรรทัดใหม่เพราะพื้นที่ไม่พอ
+   (ถ้าลบคอลัมน์นั้นออกใน Studio Pro แล้ว กฎนี้จะไม่มีผล) */
+.last-column-new-row
+    .widget-datagrid-grid-body
+    .tr:has(> .td:last-child .widget-toggleclass)
+    > .td:nth-last-child(2):has(> .td-custom-content:empty),
+.mx-custom-datagrid2-new
+    .widget-datagrid-grid-body
+    .tr:has(> .td:last-child .widget-toggleclass)
+    > .td:nth-last-child(2):has(> .td-custom-content:empty),
+.widget-toggleclass-row-content
+    .widget-datagrid-grid-body
+    .tr:has(> .td:last-child .widget-toggleclass)
+    > .td:nth-last-child(2):has(> .td-custom-content:empty) {
+    display: none !important;
+}
+
+/* ---------------------------------------------------------------------
+ * Highlight Level 1 เมื่อเปิดรายละเอียด
+ *
+ * `.show_expand` คือ class ของ datagrid ปกติ (Level 2 อยู่ใน td) ส่วนกรณีที่
+ * widget ย้ายเนื้อหาลงมาไม่มี class บอกสถานะ จึงดูจาก inline display ที่
+ * widget ใส่ไว้ตอนย่อ (display: none !important)
+ * --------------------------------------------------------------------- */
+
+.last-column-new-row .widget-datagrid-grid-body .tr:has(.lv2-content.show_expand) > .td:not(:last-child),
+.last-column-new-row .widget-datagrid-grid-body .tr:has(> .td:last-child.show_expand) > .td:not(:last-child),
+.last-column-new-row
+    .widget-datagrid-grid-body
+    .tr:has(> .td:last-child .widget-toggleclass-row-content:not([style*="display: none"]))
+    > .td:not(:last-child),
+.mx-custom-datagrid2-new .widget-datagrid-grid-body .tr:has(.lv2-content.show_expand) > .td:not(:last-child),
+.mx-custom-datagrid2-new .widget-datagrid-grid-body .tr:has(> .td:last-child.show_expand) > .td:not(:last-child),
+.mx-custom-datagrid2-new
+    .widget-datagrid-grid-body
+    .tr:has(> .td:last-child .widget-toggleclass-row-content:not([style*="display: none"]))
+    > .td:not(:last-child),
+.widget-toggleclass-row-content .widget-datagrid-grid-body .tr:has(.lv2-content.show_expand) > .td:not(:last-child),
+.widget-toggleclass-row-content .widget-datagrid-grid-body .tr:has(> .td:last-child.show_expand) > .td:not(:last-child),
+.widget-toggleclass-row-content
+    .widget-datagrid-grid-body
+    .tr:has(> .td:last-child .widget-toggleclass-row-content:not([style*="display: none"]))
+    > .td:not(:last-child) {
+    background-color: var(--bg-color-secondary, #fff);
+}
+
+.last-column-new-row .widget-datagrid-grid-body .tr:has(.lv2-content.show_expand) .expand-button,
+.last-column-new-row .widget-datagrid-grid-body .tr:has(> .td:last-child.show_expand) .expand-button,
+.last-column-new-row
+    .widget-datagrid-grid-body
+    .tr:has(> .td:last-child .widget-toggleclass-row-content:not([style*="display: none"]))
+    .expand-button,
+.mx-custom-datagrid2-new .widget-datagrid-grid-body .tr:has(.lv2-content.show_expand) .expand-button,
+.mx-custom-datagrid2-new .widget-datagrid-grid-body .tr:has(> .td:last-child.show_expand) .expand-button,
+.mx-custom-datagrid2-new
+    .widget-datagrid-grid-body
+    .tr:has(> .td:last-child .widget-toggleclass-row-content:not([style*="display: none"]))
+    .expand-button,
+.widget-toggleclass-row-content .widget-datagrid-grid-body .tr:has(.lv2-content.show_expand) .expand-button,
+.widget-toggleclass-row-content .widget-datagrid-grid-body .tr:has(> .td:last-child.show_expand) .expand-button,
+.widget-toggleclass-row-content
+    .widget-datagrid-grid-body
+    .tr:has(> .td:last-child .widget-toggleclass-row-content:not([style*="display: none"]))
+    .expand-button {
+    background: #dbeeff;
+}
+
+/* ---------------------------------------------------------------------
+ * table-bordered-all และ table-bordered-vertical
+ *
+ * ใช้ร่วมกัน:
+ * - Level 1 ทุก td มี border-left
+ * - Level 1 ตัวสุดท้ายมี border-right
+ * - Level 2 มี border-left และ border-right
+ * --------------------------------------------------------------------- */
+
+/* Level 1 ทุก td */
+.last-column-new-row.table-bordered-all .widget-datagrid-grid-body .tr > .td:not(:last-child),
+.last-column-new-row.table-bordered-vertical .widget-datagrid-grid-body .tr > .td:not(:last-child),
+.mx-custom-datagrid2-new.table-bordered-all .widget-datagrid-grid-body .tr > .td:not(:last-child),
+.mx-custom-datagrid2-new.table-bordered-vertical .widget-datagrid-grid-body .tr > .td:not(:last-child),
+.widget-toggleclass-row-content.table-bordered-all .widget-datagrid-grid-body .tr > .td:not(:last-child),
+.widget-toggleclass-row-content.table-bordered-vertical .widget-datagrid-grid-body .tr > .td:not(:last-child) {
+    border-left: 1px solid var(--tdr-border) !important;
+}
+
+/* Level 1 ตัวสุดท้าย */
+.last-column-new-row.table-bordered-all .widget-datagrid-grid-body .tr > .td:nth-last-child(2),
+.last-column-new-row.table-bordered-vertical .widget-datagrid-grid-body .tr > .td:nth-last-child(2),
+.mx-custom-datagrid2-new.table-bordered-all .widget-datagrid-grid-body .tr > .td:nth-last-child(2),
+.mx-custom-datagrid2-new.table-bordered-vertical .widget-datagrid-grid-body .tr > .td:nth-last-child(2),
+.widget-toggleclass-row-content.table-bordered-all .widget-datagrid-grid-body .tr > .td:nth-last-child(2),
+.widget-toggleclass-row-content.table-bordered-vertical .widget-datagrid-grid-body .tr > .td:nth-last-child(2) {
+    border-right: 1px solid var(--tdr-border) !important;
+}
+
+/* Level 2 */
+.last-column-new-row.table-bordered-all .widget-datagrid-grid-body .tr > .td:last-child,
+.last-column-new-row.table-bordered-vertical .widget-datagrid-grid-body .tr > .td:last-child,
+.mx-custom-datagrid2-new.table-bordered-all .widget-datagrid-grid-body .tr > .td:last-child,
+.mx-custom-datagrid2-new.table-bordered-vertical .widget-datagrid-grid-body .tr > .td:last-child,
+.widget-toggleclass-row-content.table-bordered-all .widget-datagrid-grid-body .tr > .td:last-child,
+.widget-toggleclass-row-content.table-bordered-vertical .widget-datagrid-grid-body .tr > .td:last-child {
+    border-left: 1px solid var(--tdr-border) !important;
+    border-right: 1px solid var(--tdr-border) !important;
+}
+
+/* table-bordered-all: เพิ่ม border-bottom ให้ Level 2 */
+.last-column-new-row.table-bordered-all .widget-datagrid-grid-body .tr > .td:last-child,
+.mx-custom-datagrid2-new.table-bordered-all .widget-datagrid-grid-body .tr > .td:last-child,
+.widget-toggleclass-row-content.table-bordered-all .widget-datagrid-grid-body .tr > .td:last-child {
+    border-bottom: 1px solid var(--tdr-border) !important;
+}
+
+/* ---------------------------------------------------------------------
+ * table-bordered-horizontal
+ *
+ * - Level 1 ไม่มี Border
+ * - Level 2 มีเฉพาะ border-bottom
+ * --------------------------------------------------------------------- */
+
+.last-column-new-row.table-bordered-horizontal .widget-datagrid-grid-body .tr > .td:not(:last-child),
+.mx-custom-datagrid2-new.table-bordered-horizontal .widget-datagrid-grid-body .tr > .td:not(:last-child),
+.widget-toggleclass-row-content.table-bordered-horizontal .widget-datagrid-grid-body .tr > .td:not(:last-child) {
+    border: none !important;
+}
+
+.last-column-new-row.table-bordered-horizontal .widget-datagrid-grid-body .tr > .td:last-child,
+.mx-custom-datagrid2-new.table-bordered-horizontal .widget-datagrid-grid-body .tr > .td:last-child,
+.widget-toggleclass-row-content.table-bordered-horizontal .widget-datagrid-grid-body .tr > .td:last-child {
+    border: none !important;
+    border-bottom: 1px solid var(--tdr-border) !important;
+}
+
+/* table-bordered-none: Level 1 และ Level 2 ไม่มี Border */
+.last-column-new-row.table-bordered-none .widget-datagrid-grid-body .tr > .td,
+.mx-custom-datagrid2-new.table-bordered-none .widget-datagrid-grid-body .tr > .td,
+.widget-toggleclass-row-content.table-bordered-none .widget-datagrid-grid-body .tr > .td {
+    border: none !important;
+}
+
+/* ---------------------------------------------------------------------
+ * Expand button
+ * --------------------------------------------------------------------- */
+
+.last-column-new-row .expand-button,
+.mx-custom-datagrid2-new .expand-button,
+.widget-toggleclass-row-content .expand-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    max-width: 90%;
+    min-width: 0;
+    min-height: 34px;
+    padding: 6px 8px;
+    border: 1px solid #b9d5f2;
+    border-radius: 6px;
+    background: #fff;
+    color: var(--tdr-blue);
+    font-size: 13px;
+    font-weight: 600;
+    line-height: 1.35;
+    text-align: center;
+    text-decoration: none;
+    white-space: normal;
+    overflow-wrap: anywhere;
+    word-break: break-word;
+    transition: background-color 160ms ease, border-color 160ms ease, box-shadow 160ms ease;
+}
+
+.last-column-new-row .expand-button:hover,
+.mx-custom-datagrid2-new .expand-button:hover,
+.widget-toggleclass-row-content .expand-button:hover {
+    border-color: var(--tdr-blue);
+    background: #eaf4ff;
+    box-shadow: 0 2px 5px rgba(25, 118, 210, 0.14);
+    text-decoration: none;
+}
+
+.last-column-new-row .expand-button:active,
+.mx-custom-datagrid2-new .expand-button:active,
+.widget-toggleclass-row-content .expand-button:active {
+    background: #dbeeff;
+    box-shadow: none;
+}
+
+.last-column-new-row .expand-button:focus-visible,
+.mx-custom-datagrid2-new .expand-button:focus-visible,
+.widget-toggleclass-row-content .expand-button:focus-visible {
+    outline: 3px solid rgba(25, 118, 210, 0.25);
+    outline-offset: 2px;
+}
+
+/* ---------------------------------------------------------------------
+ * Level 2 content: the container the widget moves below the button
+ *
+ * สถานะย่อ/ขยาย widget คุมด้วย inline "display: none !important" (ย่อ) แล้วลบ
+ * ออก (ขยาย) ไม่มี class บอกสถานะ จึงเทียบจาก inline style
+ *
+ * ตอนขยาย = หน้าตา base ด้านล่าง (padding 5px 10px, เส้นฟ้า 4px ด้านซ้าย) และ
+ * ใช้ @keyframes lv2-open เป็นอนิเมชันปัดลงมา (display none → block ทำให้
+ * animation เล่นใหม่ทุกครั้งที่เปิด)
+ * --------------------------------------------------------------------- */
+
+.last-column-new-row .lv2-contentwidget,
+.mx-custom-datagrid2-new .lv2-contentwidget,
+.widget-toggleclass-row-content .lv2-contentwidget {
+    width: 100%;
+    min-width: 0;
+    min-height: 0;
+    padding: 5px 10px;
+    overflow: hidden;
+    border-left: 4px solid #2a86ff;
+    background: var(--tdr-panel);
+    opacity: 1;
+    pointer-events: auto;
+    animation: lv2-open 220ms cubic-bezier(0.2, 0.7, 0.3, 1) both;
+}
+
+/* ตอนย่อ (widget ใส่ display: none !important) */
+.last-column-new-row .lv2-contentwidget[style*="display: none"],
+.mx-custom-datagrid2-new .lv2-contentwidget[style*="display: none"],
+.widget-toggleclass-row-content .lv2-contentwidget[style*="display: none"] {
+    padding: 0 10px;
+    border-left-color: transparent;
+    opacity: 0;
+    pointer-events: none;
+}
+
+.last-column-new-row .lv2-contentwidget > .mx-layoutgrid,
+.mx-custom-datagrid2-new .lv2-contentwidget > .mx-layoutgrid,
+.widget-toggleclass-row-content .lv2-contentwidget > .mx-layoutgrid {
+    width: 100% !important;
+    max-width: none !important;
+    min-height: 0;
+    overflow: hidden;
+}
+
+.last-column-new-row .lv2-contentwidget .row,
+.mx-custom-datagrid2-new .lv2-contentwidget .row,
+.widget-toggleclass-row-content .lv2-contentwidget .row {
+    padding: 5px !important;
+}
+
+.last-column-new-row .lv2-contentwidget .card-total-blue,
+.mx-custom-datagrid2-new .lv2-contentwidget .card-total-blue,
+.widget-toggleclass-row-content .lv2-contentwidget .card-total-blue {
+    padding: 0 5px;
+    border: 1px solid var(--tdr-blue);
+    border-radius: 5px;
+    background: #dbeeff;
+}
+
+@keyframes lv2-open {
+    from {
+        opacity: 0;
+        transform: translateY(-4px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* ---------------------------------------------------------------------
+ * The datagrid itself: header / filters / content / footer as blocks
+ * --------------------------------------------------------------------- */
+
+.mx-custom-datagrid2-new {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.mx-custom-datagrid2-new > .table-header,
+.mx-custom-datagrid2-new > .header-filters,
+.mx-custom-datagrid2-new > .table-content,
+.mx-custom-datagrid2-new > .table-footer {
+    box-sizing: border-box;
+}
+
+.mx-custom-datagrid2-new > .table-header {
+    flex: 1 1 20%;
+    order: 2;
+    display: flex;
+    align-items: end;
+    justify-content: end;
+    padding-bottom: 7px;
+}
+
+.mx-custom-datagrid2-new > .header-filters {
+    flex: 1 1 80%;
+    order: 1;
+}
+
+.mx-custom-datagrid2-new > .header-filters > .mx-layoutgrid > .row > .col {
+    padding: 5px 5px 5px 0;
+}
+
+.mx-custom-datagrid2-new > .widget-datagrid-content {
+    flex: 0 0 100%;
+    order: 3;
+}
+
+.mx-custom-datagrid2-new > .table-footer {
+    flex: 0 0 100%;
+    order: 4;
+}
