@@ -1,0 +1,77 @@
+/* The widget renders as a regular Mendix button: mx-button btn btn-<style>. */
+.widget-toggleclass {
+    cursor: pointer;
+    white-space: nowrap;
+}
+
+/* Keep the click on the button itself, so the caption never swallows the event. */
+.widget-toggleclass-caption {
+    pointer-events: none;
+}
+
+/* Icon and caption are lined up next to each other, the icon never catches the click. */
+.widget-toggleclass-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    pointer-events: none;
+    vertical-align: middle;
+}
+
+.widget-toggleclass-icon-left .widget-toggleclass-icon {
+    margin-right: 6px;
+}
+
+.widget-toggleclass-icon-right .widget-toggleclass-icon {
+    margin-left: 6px;
+}
+
+.widget-toggleclass-icon-image {
+    max-height: 1em;
+    width: auto;
+}
+
+/*
+ * The cell that holds the content of the row when the button has nothing under it in its own cell.
+ * The class is added by the widget (and can be restyled or disabled by the app theme), it makes the
+ * content cell span the whole row and wrap below it, so the button itself stays in its own column.
+ */
+.widget-toggleclass-full-row {
+    display: block !important;
+    flex: 0 0 100% !important;
+    grid-column: auto !important;
+    width: 100% !important;
+    min-width: 0;
+    min-height: 0;
+    padding: 0 !important;
+    border: none !important;
+    overflow: hidden;
+    box-sizing: border-box;
+}
+
+.widget-toggleclass-full-row > .td-custom-content {
+    width: 100%;
+    min-width: 0;
+    min-height: 0;
+    overflow: hidden;
+}
+
+/*
+ * Content that lives in the same cell as the button, which is how a grid row keeps the detail of a
+ * row next to the button. It is taken out of the cell and pinned to the bottom of the row, and the
+ * row reserves its height (set inline by the widget), so the content spans the whole row below the
+ * button instead of being squeezed into the column of the button.
+ */
+.widget-toggleclass-row {
+    position: relative;
+}
+
+.widget-toggleclass-row-content {
+    position: absolute !important;
+    left: 0 !important;
+    right: 0 !important;
+    bottom: 0 !important;
+    width: auto !important;
+    margin: 0 !important;
+    box-sizing: border-box;
+}

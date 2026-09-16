@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<widget
+    id="mendix.toggleclass.ToggleClass"
+    pluginWidget="true"
+    needsEntityContext="false"
+    offlineCapable="true"
+    supportedPlatform="Web"
+    xmlns="http://www.mendix.com/widget/1.0/"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.mendix.com/widget/1.0/ ../node_modules/mendix/custom_widget.xsd"
+>
+    <name>Toggle Class</name>
+    <description>Button that shows / hides the element below it by toggling display:none</description>
+    <icon>
+        iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAMAAACdt4HsAAABp1BMVEUAAABV//9mzP9LtP9Ms/9Jtv9NsvdJsfpLtPpJsfdJsfhJsvhJsvdKsvdJsPhKsPhJsfdJsPhJsfdIsfhJsfdIsPdJsfhJsfhJsPhJsPhIsfhIsPdJsPdKsPdKsfdNsvdOsvdPs/dQs/dRtPdStPdTtPdUtfdWtvdXtvdauPdcuPdeufdeufhguvhiu/hju/hkvPhmvfhnvfhpvvhrv/huwPhvwfhxwfhywvhzwvh4xfl5xfl6xfl8xvl9xvl9x/mByPmCyfmFyvmGyvmJzPmKzPmLzfmNzvqPzvqQz/qT0PqU0PqU0fqX0vqY0vqa0/qe1fqg1vqj1/uk1/un2fup2vut2/uv3Puw3Puw3fuz3vu13/u23/u34Pu44Pu64fu64fy84vy94vy+4/y/4/zD5fzE5fzG5vzH5vzI5/zK6PzL6PzR6/zT7P3U7P3V7f3W7f3Y7v3Z7v3c8P3e8f3f8f3g8f3i8v3l8/3l9P3n9P3r9v7t9/7u9/7v+P7w+P7x+f7y+f70+v71+v74/P75/P76/f77/f78/f78/v79/v7+/v7////6dMsRAAAAG3RSTlMAAwURGxwhMTNic3SEh4iVp7XBzejt7vH5/f6PsMNWAAABsklEQVR4AWIYfGAUjIJRMAqYuYREJKWJAqLCPGwY+jnFpEkBEryMqPr5pEkFgkwo9kuTDviR/S9GhgFSHAgDuKXJAQIIA4TIMkAcEY4i0mQBVrgBkuQZwA43QJo8wIFhQEhEOIBQOutHJozDOP5Crp4e1RhkJ0tKGJFd6oNEdtmJyEIzpaZl5nrRZgaHM/2Pf5/vwXXfyagXgG93bwSAlEolowLMm9w83gibhXH2gKKVdD67gTnWjwCk+VVjMQS4suSnnjMLRVFc9sAHvAX2A9fySaXNBMbEZVUWscaHIMRuqwBgD8hDEbnsRmfjUKJkAQZGCTlO/xWBwIADQLIZBlY441MvfoF1xlFS/4fy+bzXKh4dgNJE7L3eh3tmtuWa+AMcMIY3dgUvZQpGEYmMw2kD7HC+R29UqyoXLaBd0QZxzgXgikLLDSqJTKU5HOcS0MsbA9jPqtwCRvXm2eorBbNIJBw3KJ9O4Yl+AAXdnyaLt7PWN3jRWLvzmAVp94zO5+n41/onfo/UpExxZqI0O7NQr0DhIq9Io7hQpbRYp7hiobRqo6ByFcNWuY6CUTAKRgEAo8X0lBD3V30AAAAASUVORK5CYII=
+    </icon>
+    <properties>
+        <propertyGroup caption="General">
+            <propertyGroup caption="Button">
+                <property key="buttonCaption" type="string" required="true" defaultValue="Expand">
+                    <caption>Caption when hidden</caption>
+                    <description>
+                        The text shown on the button while the content is hidden, for example "แสดงรายละเอียด"
+                    </description>
+                </property>
+                <property key="captionWhenVisible" type="string" required="false" defaultValue="Collapse">
+                    <caption>Caption when shown</caption>
+                    <description>
+                        The text shown on the button while the content is visible, for example "ซ่อนรายละเอียด".
+                        Leave empty to keep the same caption in both states.
+                    </description>
+                </property>
+            </propertyGroup>
+            <propertyGroup caption="Content">
+                <property key="targetMode" type="enumeration" defaultValue="nextCell">
+                    <caption>What to hide</caption>
+                    <description>
+                        Next cell (td): hide the whole cell (or column) next to the button, so no empty padding and
+                        borders are left behind — use this for a grid row. Nearest element: hide only the element
+                        that is closest to the button (or exactly the element the target selector points at), so the
+                        cell around it stays visible.
+                    </description>
+                    <enumerationValues>
+                        <enumerationValue key="nextCell">Next cell (td)</enumerationValue>
+                        <enumerationValue key="nearest">Nearest element</enumerationValue>
+                    </enumerationValues>
+                </property>
+                <property key="targetSelector" type="string" required="false">
+                    <caption>Target selector</caption>
+                    <description>
+                        Optional CSS selector of the element to show / hide. Leave empty to toggle the element
+                        directly below the button. The cell of the widget and the cell next to it are searched first,
+                        so a class list such as "mx-name-container30 lv2-content" finds the element in the column
+                        (td) right after the button.
+                    </description>
+                </property>
+                <property key="nextCellFallback" type="boolean" defaultValue="true">
+                    <caption>Full row</caption>
+                    <description>
+                        Let the content span the whole width of the row. Content that lives in the same cell as the
+                        button (the detail of a grid row, for example) is taken out of the narrow column it would sit
+                        in and dropped below the row, so the button keeps its place and the content is readable.
+                        When there is nothing under the button at all, the first cell next to the widget that holds
+                        content is used instead — empty cells in between are skipped. Only used when no target
+                        selector is set. Turn this off to leave the layout exactly as the page and the theme made it;
+                        the classes "widget-toggleclass-full-row" and "widget-toggleclass-row" can restyle or disable
+                        both.
+                    </description>
+                </property>
+                <property key="initiallyHidden" type="boolean" defaultValue="true">
+                    <caption>Start hidden</caption>
+                    <description>
+                        Hide the content as soon as the page is shown. The button then expands it. Turn this off
+                        when the content should be visible when the page loads.
+                    </description>
+                </property>
+            </propertyGroup>
+            <propertyGroup caption="Conditional Visibility">
+                <systemProperty key="Visibility" />
+            </propertyGroup>
+        </propertyGroup>
+        <propertyGroup caption="Appearance">
+            <propertyGroup caption="Button">
+                <property key="bootstrapStyle" type="enumeration" defaultValue="default">
+                    <caption>Button style</caption>
+                    <description>The appearance of the button</description>
+                    <enumerationValues>
+                        <enumerationValue key="default">Default</enumerationValue>
+                        <enumerationValue key="primary">Primary</enumerationValue>
+                        <enumerationValue key="success">Success</enumerationValue>
+                        <enumerationValue key="info">Info</enumerationValue>
+                        <enumerationValue key="inverse">Inverse</enumerationValue>
+                        <enumerationValue key="warning">Warning</enumerationValue>
+                        <enumerationValue key="danger">Danger</enumerationValue>
+                    </enumerationValues>
+                </property>
+            </propertyGroup>
+            <propertyGroup caption="Icons">
+                <property key="icon" type="icon" required="false">
+                    <caption>Icon when hidden</caption>
+                    <description>
+                        Icon shown on the button while the content is hidden. Leave empty to show only the caption.
+                        Use icons such as chevron-right (collapsed) combined with chevron-down (expanded) to make the
+                        state visible at a glance.
+                    </description>
+                </property>
+                <property key="iconWhenVisible" type="icon" required="false">
+                    <caption>Icon when shown</caption>
+                    <description>
+                        Icon shown on the button while the content is visible. Leave empty to keep using the first
+                        icon in both states.
+                    </description>
+                </property>
+                <property key="iconPosition" type="enumeration" defaultValue="left">
+                    <caption>Icon position</caption>
+                    <description>Whether the icon is placed before or after the caption</description>
+                    <enumerationValues>
+                        <enumerationValue key="left">Left</enumerationValue>
+                        <enumerationValue key="right">Right</enumerationValue>
+                    </enumerationValues>
+                </property>
+            </propertyGroup>
+        </propertyGroup>
+        <propertyGroup caption="Behavior">
+            <propertyGroup caption="Animation">
+                <property key="animation" type="enumeration" defaultValue="slide">
+                    <caption>Animation</caption>
+                    <description>How the content is expanded and collapsed</description>
+                    <enumerationValues>
+                        <enumerationValue key="none">None</enumerationValue>
+                        <enumerationValue key="fade">Fade</enumerationValue>
+                        <enumerationValue key="slide">Slide (expand / collapse)</enumerationValue>
+                        <enumerationValue key="fadeSlide">Fade and slide</enumerationValue>
+                    </enumerationValues>
+                </property>
+                <property key="animationDuration" type="integer" defaultValue="300">
+                    <caption>Animation duration (ms)</caption>
+                    <description>Duration of the animation in milliseconds</description>
+                </property>
+            </propertyGroup>
+            <propertyGroup caption="Events">
+                <property key="onClickAction" type="action" required="false">
+                    <caption>On click action</caption>
+                    <description>Action to trigger when the button is clicked</description>
+                </property>
+            </propertyGroup>
+        </propertyGroup>
+    </properties>
+</widget>
